@@ -1,0 +1,18 @@
+<svg xmlns="http://w3.org" width="64" height="64" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="moon_grad_2" x1="15" y1="15" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F5DEB3"/>
+      <stop offset="100%" stop-color="#FFD700"/>
+    </linearGradient>
+    <linearGradient id="cloud_grad_2" x1="34.5" y1="30.9" x2="38" y2="58.9" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EEFAFE"/>
+      <stop offset="1" stop-color="#BACFDB"/>
+    </linearGradient>
+    <mask id="moon_mask_2">
+      <circle cx="26.9" cy="27.9" r="17.9" fill="white" />
+      <circle cx="38" cy="18" r="17.9" fill="black" />
+    </mask>
+  </defs>
+  <circle cx="26.9" cy="27.9" r="17.9" fill="url(#moon_grad_2)" mask="url(#moon_mask_2)"/>
+  <path d="M21.451 41.0625C22.356 33.1285 28.9086 27.0118 36.6541 27.0118C43.5057 27.0118 49.4522 31.6872 51.3536 38.4726C51.3951 38.4654 51.4408 38.4683 51.4837 38.4625C51.8725 38.415 52.2656 38.3804 52.6669 38.3804C58.1013 38.3804 62.52 42.9851 62.52 48.6435C62.52 54.3018 58.1013 58.9051 52.6669 58.9051H22.0986C17.3686 58.9051 13.52 54.897 13.52 49.9694C13.52 45.2825 17.0032 41.4257 21.451 41.0625Z" fill="url(#cloud_grad_2)"/>
+</svg>
