@@ -3,6 +3,7 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 :root {
   --text-color: #ffffff;
@@ -18,9 +19,6 @@ body {
   min-height: 100lvh;
 }
 body {
-  background: url(/imgs-icons/backgrounds/smartphone-tablet/tag/klar.jpg)
-    center/cover fixed no-repeat;
-  background-color: #000;
   font-family: "Poppins", sans-serif;
   color: white;
   overflow-x: hidden;
@@ -58,19 +56,21 @@ header {
 }
 .icon-settings {
   padding: 10px;
+  cursor: pointer;
 }
 main {
   padding: 30px 6vw;
   display: flex;
   flex-direction: column;
   gap: 30px;
+  transition: 400ms ease-in-out;
 }
-.city {
+.location {
   color: var(--secondary-text-color);
   font-weight: 400;
   font-size: clamp(1.5rem, 4.6vw, 2.7rem);
 }
-.current-tempature {
+.current-temperature {
   font-family: "Ponomar", sans-serif;
   font-weight: 500;
   font-size: clamp(6.7rem, 10vw, 9.5rem);
@@ -109,9 +109,6 @@ main {
   padding: 0.4rem 0;
   gap: 6px;
   grid-row: 3;
-}
-.tage {
-  grid-row: 2;
 }
 .sechzehn-tage-pfeil {
   height: clamp(1rem, 3vw, 2.2rem);
@@ -253,16 +250,32 @@ a {
   grid-auto-rows: 0;
   overflow: hidden;
   gap: 10px;
+  row-gap: 100px;
+  height: 157px;
+  grid-row: 2;
 }
-.tag {
+.tag-content {
   background-color: var(--inner-section-bg);
   border-radius: 20px;
   border: 1px solid var(--line-color);
   display: grid;
   grid-template-rows: min-content 1fr;
+  grid-template-columns: 1fr;
   align-items: center;
   justify-content: space-around;
-  padding: 5px 8px;
+  padding: 5px 0;
+  height: 155px;
+  margin-bottom: 10px;
+  row-gap: 4px;
+}
+.weather-icon-box {
+  height: 100%;
+  width: 70px;
+  max-width: max-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
 }
 .daily-content {
   display: flex;
@@ -278,6 +291,15 @@ a {
 .wochentag {
   text-align: center;
   border-bottom: 1px solid var(--line-color);
+  width: 80%;
+  position: relative;
+  left: 10%;
+}
+.datum {
+  border-bottom: 1px solid var(--line-color);
+  width: 80%;
+  position: relative;
+  left: 10%;
 }
 .stunden {
   width: 100%;
@@ -298,6 +320,9 @@ a {
   padding: 5px 8px;
   gap: 5px;
 }
+.stunde svg:nth-of-type(1) {
+  width: 50px;
+}
 .uhrzeit {
   text-align: center;
   border-bottom: 1px solid var(--line-color);
@@ -308,20 +333,24 @@ a {
   flex-direction: column;
   justify-content: center;
   font-size: 1.3rem;
+  align-items: center;
 
   span {
     text-align: center;
   }
   span:nth-of-type(2) {
     display: flex;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     align-items: center;
     color: var(--tertiary-text-color);
+    position: relative;
+    top: 2px;
 
     svg {
-      height: 1.3rem;
+      height: 1.9rem;
       position: relative;
-      bottom: 3.5px;
+      bottom: 6px;
+      width: min-content;
     }
   }
 }
@@ -331,7 +360,7 @@ a {
   min-height: 100lvh;
   position: fixed;
   top: 0;
-  right: 100vw;
+  transform: translateX(-100vw);
   max-height: 100vh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
@@ -370,6 +399,13 @@ a {
 .settings-section:nth-of-type(1) {
   margin-top: 30px;
 }
+.error {
+  color: rgba(255, 39, 39, 0.877);
+  font-size: 0.9rem;
+  font-weight: 200;
+  margin-top: 10px;
+  display: none;
+}
 .settings-check-section input {
   display: none;
 }
@@ -407,25 +443,44 @@ input:checked + label .custom-checkbox svg {
   padding: 4px 13px;
   font-size: 1.2rem;
   z-index: 1000;
+  outline: none;
+}
+input[type="checkbox"],
+label {
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+input[type="checkbox"]:active,
+label:active {
+  background-color: transparent;
+}
+.settings-section:nth-of-type(1) input:focus + .suggestions-div {
+  display: flex;
 }
 .settings-section:nth-of-type(1) .suggestions-div {
-  background-color: rgb(46, 46, 46);
-  width: 230px;
+  background-color: rgb(44, 44, 44);
+  min-width: 230px;
+  width: max-content;
   display: flex;
   flex-direction: column;
   align-items: center;
   border-radius: 5px;
+  gap: 1px;
+  height: fit-content;
+  max-height: 120.75px;
+  overflow-y: auto;
+  display: none;
 }
 .settings-section:nth-of-type(1) .suggestions-div button {
   width: 100%;
   background-color: rgb(49, 49, 49);
   color: rgb(201, 201, 201);
-  border: 0.2px rgb(34, 34, 34) solid;
-  border-radius: 5px;
-  font-size: 1.2rem;
-  margin-top: 3px;
+  border: none;
   transition: 200ms ease;
-  padding: 5px 0;
+  padding: 5px 5px;
+  justify-content: flex-start;
+  width: 100%;
+  min-width: max-content;
 }
 .settings-section:nth-of-type(1) .suggestions-div button:nth-of-type(1) {
   margin-top: 0;
@@ -435,9 +490,13 @@ input:checked + label .custom-checkbox svg {
   flex-direction: column;
   align-items: center;
 }
-.settings-section:nth-of-type(1) .suggestions-div button .city {
-  font-size: 1.2rem;
-  padding-right: 30px;
+.settings-section:nth-of-type(1) .suggestions-div button .location,
+.settings-section:nth-of-type(1) .suggestions-div button .adminOne {
+  font-size: 1rem;
+  color: white;
+}
+.country {
+  padding-left: 10px;
 }
 .anwenden-section {
   display: flex;
@@ -450,11 +509,12 @@ input:checked + label .custom-checkbox svg {
   background-color: rgb(127, 182, 255);
   font-size: 1.2rem;
   padding: 4px 10px;
+  cursor: pointer;
 }
 .sechzehn-tage-aside {
   position: fixed;
   top: 0;
-  left: 100vw;
+  transform: translateX(-100vw);
   width: 100vw;
   min-height: 100lvh;
   display: flex;
@@ -468,6 +528,7 @@ input:checked + label .custom-checkbox svg {
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  transition: 400ms ease-in-out;
 }
 .sechzehn-tage-aside::-webkit-scrollbar {
   display: none;
@@ -494,33 +555,37 @@ input:checked + label .custom-checkbox svg {
   justify-content: stretch;
   padding: 5px 10px;
   font-size: 1.4rem;
-  height: 20px;
   background-color: var(--inner-section-bg);
   border-radius: 20px;
   height: min-content;
   align-items: center;
+}
+.sechzehn-tage-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 .daily-content-sechzehn {
   display: flex;
   grid-column: 2;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
   padding: 0 10px;
   height: 100%;
 }
 .daily-content-sechzehn svg {
-  width: 100%;
-  max-width: 2rem;
+  max-width: 53px;
 }
-.wochentag-sechzehn {
+.datum-sechzehn {
   height: 65%;
   width: 20vw;
   border-right: solid 1px var(--line-color);
   border-bottom: none;
   grid-column: 1;
-  text-align: start;
-  padding: 0 10px;
+  text-align: center;
+  padding-left: 10px;
   display: flex;
   align-items: center;
 }
@@ -530,6 +595,257 @@ input:checked + label .custom-checkbox svg {
   align-self: flex-start;
   position: relative;
   right: 5px;
+}
+.custom-alert {
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: none;
+}
+.alert {
+  background-color: #2c2c2c;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  gap: 10px;
+  position: relative;
+  bottom: 4vh;
+}
+.alert-header {
+  text-align: center;
+  font-size: 2.4rem;
+  margin-bottom: 7px;
+  color: rgb(216, 0, 0);
+}
+.alert-icon {
+  width: 10vw;
+  min-width: 120px;
+  animation: error-animation 500ms alternate 2 forwards ease-in-out;
+}
+.alert-message {
+  font-size: 1.2rem;
+  max-width: 70vw;
+  text-align: center;
+  margin-bottom: 15px;
+}
+.alert-button {
+  padding: 5px 10px;
+  font-size: 1.2rem;
+  border-radius: 10000px;
+  background-color: rgb(216, 0, 0);
+  color: white;
+  border: solid rgba(255, 255, 255, 0.253) 1px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+.success-alert {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+}
+.success-card {
+  background-color: #313131;
+  border-radius: 15px;
+  padding: 15px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  bottom: 60px;
+  gap: 5px;
+  max-width: 90vw;
+  opacity: 0;
+}
+.success-icon {
+  height: 10vh;
+}
+.success-message {
+  text-align: center;
+  font-weight: 200;
+  color: #33ff00b7;
+}
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #ebebeb;
+  z-index: 9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loading-circle {
+  width: 8vw;
+  height: 8vw;
+  min-width: 100px;
+  min-height: 100px;
+  background-color: #00000000;
+  border: solid 18px #d1d1d1;
+  border-top: solid 18px rgb(57, 124, 201);
+  border-radius: 50%;
+  position: absolute;
+  bottom: 49%;
+  animation: rotate 1s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite;
+}
+.shadow-circle {
+  width: 8vw;
+  height: 8vw;
+  min-width: 100px;
+  min-height: 100px;
+  background-color: #00000000;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 49%;
+  box-shadow: inset 0px -11px 15px 7px rgba(0, 0, 0, 0.17);
+}
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+.loading-box {
+  display: flex;
+  justify-content: center;
+}
+.loading-text {
+  position: absolute;
+  color: #2c2c2cb0;
+  top: 53vh;
+}
+.logo-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 42vh;
+  gap: 10px;
+  height: 4vw;
+  min-height: 50px;
+  background-color: #b6d7f1f6;
+  backdrop-filter: blur(5px);
+  padding: 30px 10px;
+  border-radius: 15px;
+  font-weight: 500;
+  color: #3a3a3a;
+  visibility: hidden;
+}
+.logo-box svg {
+  width: 50px;
+  height: 50px;
+}
+@keyframes fade-away {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes zoom-in {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(13);
+  }
+}
+@keyframes logo-in {
+  0% {
+    visibility: unset;
+    transform: scale(0.7) translateY(15vh);
+    opacity: 0;
+  }
+  50% {
+    visibility: unset;
+    transform: scale(1) translateY(11vh);
+    opacity: 1;
+  }
+  100% {
+    visibility: unset;
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes loading-out {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1) translateY(-11vh);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.7) translateY(-15vh);
+    opacity: 0;
+  }
+}
+@keyframes rotate {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+@keyframes view-success {
+  0% {
+    opacity: 20%;
+  }
+  50% {
+    opacity: 100%;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes error-animation {
+  from {
+    transform: rotateZ(0deg);
+  }
+  to {
+    transform: rotateZ(180deg);
+  }
+}
+@keyframes icon-rotate {
+  from {
+    transform: rotateZ(0deg);
+  }
+  to {
+    transform: rotateZ(360deg);
+  }
+}
+@keyframes slide-out {
+  from {
+  }
+  to {
+    transform: translateX(-100vw);
+  }
+}
+@keyframes slide-in {
+  from {
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 @media (max-width: 400px) {
   header {
@@ -542,12 +858,15 @@ input:checked + label .custom-checkbox svg {
   footer {
     font-size: 0.8rem;
   }
+  .datum-sechzehn {
+    padding: 0;
+  }
 }
 @media (min-width: 400px) {
   .sechzehn-tage-section {
     min-width: 70vw;
   }
-  .wochentag-sechzehn {
+  .datum-sechzehn {
     width: 15vw;
   }
 }
@@ -558,7 +877,7 @@ input:checked + label .custom-checkbox svg {
   }
 }
 @media (min-width: 1200px) {
-  .wochentag-sechzehn {
+  .datum-sechzehn {
     width: 10vw;
   }
 }
@@ -567,36 +886,40 @@ input:checked + label .custom-checkbox svg {
     margin: 0 auto;
     padding: 0.4rem 15px;
   }
+  .alert-message {
+    font-size: 1.2rem;
+    max-width: 40vw;
+  }
 }
 @media (hover: hover) {
   .settings-section:nth-of-type(1) .suggestions-div button:hover {
     cursor: pointer;
     background-color: rgb(59, 59, 59);
   }
-}
-@media (max-width: 335px) {
-  .tage {
-    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  .alert-button:hover {
+    background-color: rgb(255, 42, 42);
   }
 }
-@media (min-height: 1250px) and (min-width: 591px) and (orientation: portrait) {
-  footer {
-    position: absolute;
-    bottom: 0;
+@media (max-width: 955px) {
+  .datum {
+    padding-left: 1.7px;
   }
 }
 @media (min-width: 955px) {
   .tage {
-    height: fit-content;
+    height: 367px;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(5, 60px);
+    gap: 10px;
+    row-gap: 15px;
   }
-  .tag {
+  .tag-content {
     grid-template-rows: 1fr;
     grid-template-columns: 0.5fr 1fr;
     justify-content: stretch;
-    padding: 5px 35px;
+    padding: 0 35px;
     font-size: 1.4rem;
+    height: max-content;
   }
   .daily-content {
     grid-column: 2;
@@ -604,6 +927,8 @@ input:checked + label .custom-checkbox svg {
     justify-content: space-between;
     width: 100%;
     padding: 0 10px;
+    position: relative;
+    top: 3px;
   }
   .wochentag {
     height: 65%;
@@ -615,6 +940,27 @@ input:checked + label .custom-checkbox svg {
     padding: 0 10px;
     display: flex;
     align-items: center;
+    position: relative;
+    top: 2px;
+  }
+  .datum {
+    height: 65%;
+    width: 60%;
+    border-right: solid 1px var(--line-color);
+    border-bottom: none;
+    grid-column: 1;
+    text-align: start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: 2px;
+  }
+  .tag-content:has(.datum) {
+    padding-left: 37px;
+  }
+  .tag-sechzehn {
+    padding: 5px 4vw;
   }
 }
 @media (pointer: coarse) {
@@ -629,7 +975,8 @@ input:checked + label .custom-checkbox svg {
 }
 @media (pointer: fine) {
   @supports not selector(::-webkit-scrollbar) {
-    .stunden {
+    .stunden,
+    .settings-section:nth-of-type(1) .suggestions-div {
       scrollbar-color: #858585 transparent;
       scrollbar-width: thin;
     }
@@ -647,6 +994,17 @@ input:checked + label .custom-checkbox svg {
     }
     .stündliche-vorhersage:hover .stunden::-webkit-scrollbar-thumb {
       background-color: #858585;
+    }
+
+    .settings-section:nth-of-type(1) .suggestions-div::-webkit-scrollbar {
+      width: 4px;
+    }
+    .settings-section:nth-of-type(1) .suggestions-div::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+    .settings-section:nth-of-type(1) .suggestions-div::-webkit-scrollbar-thumb {
+      background-color: #858585;
+      border-radius: 1000px;
     }
   }
 }
