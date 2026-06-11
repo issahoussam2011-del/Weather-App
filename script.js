@@ -1,6 +1,11 @@
 //asides slide onclick in or out
 const settingsButton = document.querySelector('#settingsSVG');
 const settingsSection = document.querySelector('.settings');
+const mainSection = document.querySelector('main');
+const inSixteenDaysButton = document.querySelector('.sechzehn-tage-btn');
+const outSixteenDaysButton = document.querySelector('.zurück-pfeil');
+const sixteenDaysSection = document.querySelector('.sechzehn-tage-aside');
+const clickEvent = new Event('click');
 
 settingsButton.addEventListener('animationend', () => {
   settingsButton.style.animation = 'none';
@@ -15,10 +20,18 @@ settingsButton.addEventListener('click', (e) => {
     setTimeout(() => {
       settingsSection.style.transform = 'none';
     }, 400);
+
+    if (!sixteenDaysSection.classList.contains('.active')) {
+      mainSection.style.transform = 'translateX(100vw)';
+    } else {
+      outSixteenDaysButton.dispatchEvent(clickEvent);
+      mainSection.style.transform = 'translateX(200vw)';
+    }
   } else {
     settingsSection.style.animation = 'slide-out 400ms ease-in-out forwards';
     settingsButton.style.animation =
       'icon-rotate 400ms ease-out forwards reverse';
+    mainSection.style.transform = 'translateX(0)';
 
     setTimeout(() => {
       settingsSection.style.transform = 'translateX(-100vw)';
@@ -27,25 +40,32 @@ settingsButton.addEventListener('click', (e) => {
   i++;
 });
 
-const inSixteenDaysButton = document.querySelector('.sechzehn-tage-btn');
-const outSixteenDaysButton = document.querySelector('.zurück-pfeil');
-const sixteenDaysSection = document.querySelector('.sechzehn-tage-aside');
-const mainSection = document.querySelector('main');
-
 inSixteenDaysButton.addEventListener('click', (e) => {
   mainSection.style.transform = 'translateX(100vw)';
   sixteenDaysSection.style.transform = 'translateX(0)';
+  sixteenDaysSection.classList.add('.active');
 });
 
 outSixteenDaysButton.addEventListener('click', (e) => {
   mainSection.style.transform = 'translateX(0)';
   sixteenDaysSection.style.transform = 'translateX(-100vw)';
+  sixteenDaysSection.classList.remove('.active');
 });
 
 //Geocoding api for changing weather-location
 const locationInput = document.querySelector('#location-input');
+const suggestionsDiv = document.querySelector('.suggestions-div');
 
-locationInput.addEventListener('input', debounce(geocodingFetch, 380));
+const debouncedFetch = debounce(geocodingFetch, 380);
+
+locationInput.addEventListener('input', (e) => {
+  if (locationInput.value.length < 2) {
+    suggestionsDiv.style.border = 'none';
+  } else {
+    suggestionsDiv.style.border = '1px solid var(--line-color)';
+  }
+  debouncedFetch();
+});
 
 function debounce(func, delay) {
   let timer;
@@ -119,7 +139,15 @@ async function geocodingFetch() {
     }
 
     //
-    suggestionButton.append(locationSpan, adminOneSpan, countrySpan);
+    const lineBreak = document.createElement('br');
+
+    suggestionButton.append(
+      locationSpan,
+      lineBreak,
+      adminOneSpan,
+      lineBreak,
+      countrySpan,
+    );
     suggestionsBox.append(suggestionButton);
 
     suggestionButton.addEventListener('mousedown', (e) => {
@@ -129,6 +157,7 @@ async function geocodingFetch() {
       locationInput.value = suggestionButton.textContent;
       locationInput.blur();
       clickedSuggestion = suggestionButton.innerText;
+      locationErrorMessage.style.display = 'none';
     });
   }
 }
@@ -152,9 +181,12 @@ submitSettingsButton.addEventListener('click', (e) => {
   void successAlert.offsetWidth;
 
   if (
-    locationInput.value !== 'Berlin, Land Berlin, Deutschland' &&
-    !clickedSuggestion &&
-    locationInput.value.toLowerCase() !== savedLocation.toLowerCase()
+    (locationInput.value !== 'Berlin, Land Berlin, Deutschland' &&
+      !clickedSuggestion &&
+      locationInput.value.toLowerCase() !== savedLocation.toLowerCase()) ||
+    (clickedSuggestion !== undefined &&
+      locationInput.value !== clickedSuggestion &&
+      locationInput.value !== savedLocation)
   ) {
     locationErrorMessage.style.display = 'block';
   } else if (
@@ -215,6 +247,23 @@ async function fetchWeather() {
     );
     const JSONdata = await fetchData.json();
     console.log(JSONdata);
+
+    //loading-screen
+
+    setTimeout(() => {
+      loadingCircle.forEach((el) => {
+        el.style.animation = 'loading-out 1s ease forwards';
+      });
+
+      loadingLogo.style.animation =
+        'logo-in 1s ease forwards, zoom-in 0.7s ease-out 1.2s forwards';
+
+      loadingSection.style.animation = 'fade-away 0.7s ease 1.3s forwards';
+    }, 930);
+
+    setTimeout(() => {
+      loadingSection.style.display = 'none';
+    }, 3030);
 
     insertWeatherdata(JSONdata);
   } catch {
@@ -910,7 +959,8 @@ function insertWeatherdata(allData) {
 
   //24h forecast
 
-  const currentHour = new Date().getHours();
+  const currentDateString = allData.current.time;
+  const currentHour = new Date(currentDateString).getHours();
   hourlyWeather.innerHTML = ``;
   let hourlyWindspeedIcon;
 
@@ -942,7 +992,12 @@ function insertWeatherdata(allData) {
   }
 
   let counter = currentHour + 1;
+
   for (let i = 1; i < 25; i++) {
+    if (counter === 24) {
+      counter = 0;
+    }
+
     const hourlyWeathercodePath = allData.hourly.weather_code[currentHour + i];
     const hourlyIsDay = allData.hourly.is_day;
 
@@ -959,10 +1014,14 @@ function insertWeatherdata(allData) {
             </div>`;
 
     counter++;
-    if (counter === 24) {
-      counter = 0;
-    }
   }
+  const allHours = Array.from(document.querySelectorAll('.stunde'));
+  const allHoursWidth = allHours.map((el) => el.offsetWidth);
+  const hourMaxWidth = Math.max(...allHoursWidth);
+  allHours.forEach((el) => {
+    el.style.flex = '0 0 auto';
+    el.style.flexBasis = `${hourMaxWidth}px`;
+  });
 
   //Perceived temperature
   currentPerceivedTemperature.innerText =
@@ -1102,20 +1161,3 @@ function insertWeatherdata(allData) {
 const loadingSection = document.querySelector('.loading-screen');
 const loadingCircle = document.querySelectorAll('.loading');
 const loadingLogo = document.querySelector('.logo-box');
-
-window.addEventListener('load', (e) => {
-  setTimeout(() => {
-    loadingCircle.forEach((el) => {
-      el.style.animation = 'loading-out 1s ease forwards';
-    });
-
-    loadingLogo.style.animation =
-      'logo-in 1s ease forwards, zoom-in 0.7s ease-out 1.2s forwards';
-
-    loadingSection.style.animation = 'fade-away 0.7s ease 1.3s forwards';
-  }, 930);
-
-  setTimeout(() => {
-    loadingSection.style.display = 'none';
-  }, 3030);
-});

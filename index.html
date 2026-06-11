@@ -311,168 +311,175 @@
       </main>
 
       <aside class="settings">
-        <h2 class="main-settings-header">Settings:</h2>
+        <div class="settings-content">
+          <h2 class="section-heder">Settings:</h2>
 
-        <section class="settings-section standorteingabe">
-          <h3 class="settings-header">Gewünster Standort:</h3>
-          <div class="content">
-            <input
-              type="text"
-              name="city-country"
-              id="location-input"
-              autocomplete="off"
-              spellcheck="false"
-              autocorrect="off"
-            />
-            <div class="suggestions-div"></div>
-            <p class="error">
-              Bitte wählen sie eine der vorgeschlagenen Optionen aus!
-            </p>
+          <div class="settings-container">
+            <section class="settings-section standorteingabe">
+              <h3 class="settings-header">Gewünster Standort:</h3>
+              <div class="content">
+                <input
+                  type="text"
+                  name="city-country"
+                  id="location-input"
+                  pattern=".{2,}"
+                  autocomplete="off"
+                  spellcheck="false"
+                  autocorrect="off"
+                />
+                <div class="suggestions-div"></div>
+                <p class="error">
+                  Bitte wählen sie eine der vorgeschlagenen Optionen aus!
+                </p>
+              </div>
+            </section>
+
+            <section
+              class="settings-section temperatur-einheit-section settings-check-section"
+            >
+              <h3 class="settings-header">Temperatureneinheit:</h3>
+              <div class="content">
+                <input
+                  type="radio"
+                  name="temperatureinheit"
+                  id="celsius"
+                  value="celsius"
+                  checked
+                />
+                <label for="celsius">
+                  <div class="custom-checkbox">
+                    <svg
+                      xmlns="http://w3.org"
+                      height="24px"
+                      viewBox="0 -960 960 960"
+                      width="24px"
+                      fill="transparent"
+                    >
+                      <path
+                        d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"
+                      />
+                    </svg>
+                  </div>
+                  Celsius C°
+                </label>
+
+                <input
+                  type="radio"
+                  name="temperatureinheit"
+                  id="fahrenheit"
+                  value="fahrenheit"
+                />
+                <label for="fahrenheit">
+                  <div class="custom-checkbox">
+                    <svg
+                      xmlns="http://w3.org"
+                      height="24px"
+                      viewBox="0 -960 960 960"
+                      width="24px"
+                      fill="transparent"
+                    >
+                      <path
+                        d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"
+                      />
+                    </svg>
+                  </div>
+                  Fahrenheit F°
+                </label>
+              </div>
+            </section>
+
+            <section
+              class="settings-section windgeschwindigkeit-einheit-section settings-check-section"
+            >
+              <h3 class="settings-header">
+                Windgeschwindigkeits-<br />Einheit:
+              </h3>
+              <div class="content">
+                <input
+                  type="radio"
+                  name="windeinheit"
+                  id="kmh"
+                  value="kmh"
+                  checked
+                />
+                <label for="kmh">
+                  <div class="custom-checkbox">
+                    <svg
+                      xmlns="http://w3.org"
+                      height="24px"
+                      viewBox="0 -960 960 960"
+                      width="24px"
+                      fill="transparent"
+                    >
+                      <path
+                        d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"
+                      />
+                    </svg>
+                  </div>
+                  km/h
+                </label>
+
+                <input type="radio" name="windeinheit" id="ms" value="ms" />
+                <label for="ms">
+                  <div class="custom-checkbox">
+                    <svg
+                      xmlns="http://w3.org"
+                      height="24px"
+                      viewBox="0 -960 960 960"
+                      width="24px"
+                      fill="transparent"
+                    >
+                      <path
+                        d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"
+                      />
+                    </svg>
+                  </div>
+                  m/s
+                </label>
+
+                <input type="radio" name="windeinheit" id="mph" value="mph" />
+                <label for="mph">
+                  <div class="custom-checkbox">
+                    <svg
+                      xmlns="http://w3.org"
+                      height="24px"
+                      viewBox="0 -960 960 960"
+                      width="24px"
+                      fill="transparent"
+                    >
+                      <path
+                        d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"
+                      />
+                    </svg>
+                  </div>
+                  mph
+                </label>
+
+                <input type="radio" name="windeinheit" id="kn" value="kn" />
+                <label for="kn">
+                  <div class="custom-checkbox">
+                    <svg
+                      xmlns="http://w3.org"
+                      height="24px"
+                      viewBox="0 -960 960 960"
+                      width="24px"
+                      fill="transparent"
+                    >
+                      <path
+                        d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"
+                      />
+                    </svg>
+                  </div>
+                  knots
+                </label>
+              </div>
+            </section>
+
+            <section class="anwenden-section settings-section">
+              <button class="submit-settings">Anwenden</button>
+            </section>
           </div>
-        </section>
-
-        <section
-          class="settings-section temperatur-einheit-section settings-check-section"
-        >
-          <h3 class="settings-header">Temperatureneinheit:</h3>
-          <div class="content">
-            <input
-              type="radio"
-              name="temperatureinheit"
-              id="celsius"
-              value="celsius"
-              checked
-            />
-            <label for="celsius">
-              <div class="custom-checkbox">
-                <svg
-                  xmlns="http://w3.org"
-                  height="24px"
-                  viewBox="0 -960 960 960"
-                  width="24px"
-                  fill="transparent"
-                >
-                  <path
-                    d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"
-                  />
-                </svg>
-              </div>
-              Celsius C°
-            </label>
-
-            <input
-              type="radio"
-              name="temperatureinheit"
-              id="fahrenheit"
-              value="fahrenheit"
-            />
-            <label for="fahrenheit">
-              <div class="custom-checkbox">
-                <svg
-                  xmlns="http://w3.org"
-                  height="24px"
-                  viewBox="0 -960 960 960"
-                  width="24px"
-                  fill="transparent"
-                >
-                  <path
-                    d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"
-                  />
-                </svg>
-              </div>
-              Fahrenheit F°
-            </label>
-          </div>
-        </section>
-
-        <section
-          class="settings-section windgeschwindigkeit-einheit-section settings-check-section"
-        >
-          <h3 class="settings-header">Windgeschwindigkeitseinheit:</h3>
-          <div class="content">
-            <input
-              type="radio"
-              name="windeinheit"
-              id="kmh"
-              value="kmh"
-              checked
-            />
-            <label for="kmh">
-              <div class="custom-checkbox">
-                <svg
-                  xmlns="http://w3.org"
-                  height="24px"
-                  viewBox="0 -960 960 960"
-                  width="24px"
-                  fill="transparent"
-                >
-                  <path
-                    d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"
-                  />
-                </svg>
-              </div>
-              km/h
-            </label>
-
-            <input type="radio" name="windeinheit" id="ms" value="ms" />
-            <label for="ms">
-              <div class="custom-checkbox">
-                <svg
-                  xmlns="http://w3.org"
-                  height="24px"
-                  viewBox="0 -960 960 960"
-                  width="24px"
-                  fill="transparent"
-                >
-                  <path
-                    d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"
-                  />
-                </svg>
-              </div>
-              m/s
-            </label>
-
-            <input type="radio" name="windeinheit" id="mph" value="mph" />
-            <label for="mph">
-              <div class="custom-checkbox">
-                <svg
-                  xmlns="http://w3.org"
-                  height="24px"
-                  viewBox="0 -960 960 960"
-                  width="24px"
-                  fill="transparent"
-                >
-                  <path
-                    d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"
-                  />
-                </svg>
-              </div>
-              mph
-            </label>
-
-            <input type="radio" name="windeinheit" id="kn" value="kn" />
-            <label for="kn">
-              <div class="custom-checkbox">
-                <svg
-                  xmlns="http://w3.org"
-                  height="24px"
-                  viewBox="0 -960 960 960"
-                  width="24px"
-                  fill="transparent"
-                >
-                  <path
-                    d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"
-                  />
-                </svg>
-              </div>
-              knots
-            </label>
-          </div>
-        </section>
-
-        <section class="anwenden-section settings-section">
-          <button class="submit-settings">Anwenden</button>
-        </section>
+        </div>
       </aside>
 
       <aside class="sechzehn-tage-aside">

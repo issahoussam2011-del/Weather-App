@@ -46,13 +46,16 @@ html::-webkit-scrollbar {
   font-family: "Inter", sans-serif;
 }
 header {
-  position: relative;
+  position: fixed;
+  top: 0;
   height: clamp(60px, 11vh, 120px);
+  width: 100vw;
   display: flex;
   justify-content: space-between;
   padding: 0 25px;
   padding-top: clamp(20px, 4vh, 50px);
   z-index: 2;
+  transition: all 400ms ease-in-out;
 }
 .icon-settings {
   padding: 10px;
@@ -60,6 +63,7 @@ header {
 }
 main {
   padding: 30px 6vw;
+  padding-top: calc(clamp(60px, 11vh, 120px) + clamp(20px, 4vh, 50px));
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -109,6 +113,7 @@ main {
   padding: 0.4rem 0;
   gap: 6px;
   grid-row: 3;
+  cursor: pointer;
 }
 .sechzehn-tage-pfeil {
   height: clamp(1rem, 3vw, 2.2rem);
@@ -355,13 +360,12 @@ a {
   }
 }
 .settings {
-  background-color: rgb(56, 56, 56);
   width: 100vw;
   min-height: 100lvh;
+  max-height: 100vh;
   position: fixed;
   top: 0;
   transform: translateX(-100vw);
-  max-height: 100vh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: none;
@@ -369,35 +373,68 @@ a {
   z-index: 1;
   padding-top: calc(clamp(60px, 11vh, 120px) + 30px);
   padding-bottom: 20px;
+  margin-bottom: 100px;
   display: flex;
-  align-items: center;
+  justify-content: center;
+}
+.settings-content {
+  background-color: var(--outer-section-bg);
+  backdrop-filter: blur(10px);
+  display: flex;
   flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  height: fit-content;
+  width: 90vw;
+  border-radius: 20px;
+  padding: 15px 15px;
+  margin-bottom: 75px;
+}
+.settings h2 {
+  font-weight: 500;
+  font-size: clamp(1.2rem, 1.8vw, 2.4rem);
 }
 .settings::-webkit-scrollbar {
   display: none;
 }
 .settings-header {
   font-weight: 500;
-  color: rgb(127, 182, 255);
+  color: var(--secondary-text-color);
 }
-.main-settings-header {
-  position: absolute;
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  top: 60px;
-  font-size: p;
+.settings-container {
+  background-color: var(--inner-section-bg);
+  border-radius: 20px;
+  border: solid 1px var(--line-color);
+  display: grid;
+  grid-template-rows: repeat(4, fit-content);
+  align-items: center;
+  gap: 20px;
+  padding: 10px 10px;
 }
 .settings-section {
-  margin-bottom: 40px;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 300px;
-  color: rgb(212, 231, 255);
+  max-width: 100%;
+  padding: 10px 10px;
+  overflow-wrap: anywhere;
+}
+.settings-section:nth-of-type(-n + 3) {
+  background-color: var(--inner-section-bg);
+  border-radius: 20px;
+  border: solid 1px var(--line-color);
 }
 .settings-section:nth-of-type(1) {
-  margin-top: 30px;
+  grid-row: 1;
+}
+.settings-section:nth-of-type(2) {
+  grid-row: 2;
+}
+.settings-section:nth-of-type(3) {
+  grid-row: 3;
+}
+.settings-section:nth-of-type(4) {
+  grid-row: 4;
 }
 .error {
   color: rgba(255, 39, 39, 0.877);
@@ -436,8 +473,7 @@ input:checked + label .custom-checkbox svg {
 }
 .settings-section:nth-of-type(1) input {
   background-color: rgb(255, 255, 255);
-  border: 1px solid rgb(0, 0, 0);
-  border-bottom: none;
+  border: none;
   border-radius: 1000000px;
   color: rgb(0, 0, 0);
   padding: 4px 13px;
@@ -454,41 +490,47 @@ input[type="checkbox"]:active,
 label:active {
   background-color: transparent;
 }
+.settings-section:nth-of-type(1) .suggestions-div {
+  background-color: #c5c5c541;
+  position: relative;
+  top: 3px;
+  width: 100%;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1px;
+  max-height: min(200px, 45vh);
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: none;
+  z-index: 20;
+}
 .settings-section:nth-of-type(1) input:focus + .suggestions-div {
   display: flex;
 }
-.settings-section:nth-of-type(1) .suggestions-div {
-  background-color: rgb(44, 44, 44);
-  min-width: 230px;
-  width: max-content;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 5px;
-  gap: 1px;
-  height: fit-content;
-  max-height: 120.75px;
-  overflow-y: auto;
-  display: none;
+.suggestion {
+  text-align: start;
+  display: block;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 .settings-section:nth-of-type(1) .suggestions-div button {
   width: 100%;
-  background-color: rgb(49, 49, 49);
-  color: rgb(201, 201, 201);
-  border: none;
+  min-width: 0;
+  background-color: var(--inner-section-bg);
+  color: rgb(230, 230, 230);
+  border: 1px solid rgb(228, 228, 228);
   transition: 200ms ease;
-  padding: 5px 5px;
+  padding: 8px 10px;
   justify-content: flex-start;
-  width: 100%;
-  min-width: max-content;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 .settings-section:nth-of-type(1) .suggestions-div button:nth-of-type(1) {
   margin-top: 0;
-}
-.settings-section:nth-of-type(1) .content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 .settings-section:nth-of-type(1) .suggestions-div button .location,
 .settings-section:nth-of-type(1) .suggestions-div button .adminOne {
@@ -505,8 +547,9 @@ label:active {
 .anwenden-section button {
   width: max-content;
   border-radius: 1000000px;
-  border: 2px solid rgb(91, 162, 255);
-  background-color: rgb(127, 182, 255);
+  border: 1px solid rgb(219, 219, 219);
+  background-color: var(--inner-section-bg);
+  color: rgb(231, 231, 231);
   font-size: 1.2rem;
   padding: 4px 10px;
   cursor: pointer;
@@ -595,6 +638,7 @@ label:active {
   align-self: flex-start;
   position: relative;
   right: 5px;
+  cursor: pointer;
 }
 .custom-alert {
   width: 100vw;
@@ -861,6 +905,9 @@ label:active {
   .datum-sechzehn {
     padding: 0;
   }
+  .settings-section:nth-of-type(1) input {
+    max-width: 220px;
+  }
 }
 @media (min-width: 400px) {
   .sechzehn-tage-section {
@@ -874,6 +921,9 @@ label:active {
   .wind-geschwindigkeit-richtung-svg {
     min-height: 85px;
     top: 65px;
+  }
+  .settings-section:nth-of-type(1) input {
+    max-width: 190px;
   }
 }
 @media (min-width: 1200px) {
@@ -894,7 +944,7 @@ label:active {
 @media (hover: hover) {
   .settings-section:nth-of-type(1) .suggestions-div button:hover {
     cursor: pointer;
-    background-color: rgb(59, 59, 59);
+    background-color: #c5c5c56c;
   }
   .alert-button:hover {
     background-color: rgb(255, 42, 42);
