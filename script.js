@@ -246,7 +246,6 @@ async function fetchWeather() {
       `https://api.open-meteo.com/v1/forecast?latitude=${parseFloat(latitude)}&longitude=${parseFloat(longitude)}&daily=temperature_2m_max,temperature_2m_min,weather_code&hourly=temperature_2m,is_day,weather_code,wind_speed_10m&current=temperature_2m,weather_code,is_day,apparent_temperature,relative_humidity_2m,wind_speed_10m,wind_direction_10m&timezone=auto&forecast_days=16&temperature_unit=${temperatureUnit.value}&wind_speed_unit=${windspeedUnit.value}`,
     );
     const JSONdata = await fetchData.json();
-    console.log(JSONdata);
 
     //loading-screen
 
